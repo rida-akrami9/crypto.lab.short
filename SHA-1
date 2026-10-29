@@ -1,0 +1,16 @@
+PROGRAM TO CALCULATE MESSAGE DIGEST OF A TEXT USING SHA-1 ALGORITHM IN JAVA.
+Program
+import java.security.MessageDigest;
+import java.util.Scanner;
+class SHA1Digest {
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter message: ");
+        String s = sc.nextLine();
+        byte[] h = MessageDigest.getInstance("SHA-1").digest(s.getBytes());
+        StringBuilder hex = new StringBuilder();
+        for (byte b : h) hex.append(String.format("%02x", b));
+        System.out.println("SHA-1 Digest: " + hex);
+        sc.close();
+    }
+}
