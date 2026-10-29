@@ -1,0 +1,24 @@
+WRITE A JAVA PROGRAM TO IMPLEMENT TRIPLE DES ALGORITHM LOGIC.
+Program
+import javax.crypto.*;
+import javax.crypto.spec.*;
+import java.util.*;
+class TripleDES {
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter 24 char Key: ");
+        String k = sc.nextLine();
+        System.out.print("Enter Plain Text: ");
+        String s = sc.nextLine();
+        SecretKeySpec key = new SecretKeySpec(k.getBytes(), "DESede");
+        Cipher c = Cipher.getInstance("DESede/ECB/PKCS5Padding");
+        c.init(Cipher.ENCRYPT_MODE, key);
+        String e = Base64.getEncoder()
+            .encodeToString(c.doFinal(s.getBytes()));
+        c.init(Cipher.DECRYPT_MODE, key);
+        String d = new String(c.doFinal(Base64.getDecoder().decode(e)));
+        System.out.println("\nEncrypted : " + e);
+        System.out.println("Decrypted : " + d);
+        sc.close();
+    }
+}
