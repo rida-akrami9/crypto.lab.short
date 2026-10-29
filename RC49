@@ -1,0 +1,23 @@
+WRITE A JAVA PROGRAM TO IMPLEMENT RC4 ALGORITHM LOGIC, ENCRYPT "HELLO WORLD".
+Program
+import javax.crypto.*;
+import java.util.*;
+class RC4 {
+    public static void main(String[] args) throws Exception {
+        String s = "Hello world";
+        KeyGenerator kg = KeyGenerator.getInstance("ARCFOUR");
+        kg.init(128);
+        SecretKey key = kg.generateKey();
+        Cipher c = Cipher.getInstance("ARCFOUR");
+        c.init(Cipher.ENCRYPT_MODE, key);
+        String e = Base64.getEncoder()
+            .encodeToString(c.doFinal(s.getBytes()));
+        c.init(Cipher.DECRYPT_MODE, key);
+        String d = new String(c.doFinal(Base64.getDecoder().decode(e)));
+        System.out.println("Key: "
+            + Base64.getEncoder().encodeToString(key.getEncoded()));
+        System.out.println("Plain: " + s);
+        System.out.println("Enc: " + e);
+        System.out.println("Dec: " + d);
+    }
+}
