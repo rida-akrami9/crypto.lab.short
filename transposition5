@@ -1,0 +1,59 @@
+WRITE A JAVA PROGRAM TO IMPLEMENT SINGLE AND DOUBLE TRANSPOSITION TECHNIQUE.
+Program
+import java.util.*;
+class ColumnarTranspositionCipher {
+    // key letters -> order numbers (ZEBRA -> 5 3 2 4 1)
+    static int[] getKey(String s) {
+        s = s.toUpperCase();
+        int[] k = new int[s.length()];
+        for (int i = 0; i < k.length; i++) {
+            k[i] = 1;
+            for (int j = 0; j < k.length; j++)
+            if (s.charAt(j) < s.charAt(i)
+                || (s.charAt(j) == s.charAt(i) && j < i))
+            k[i]++;
+        }
+        return k;
+    }
+    // write text row by row, read column by column in key order
+    static String encrypt(String s, int[] k) {
+        int c = k.length, r = (s.length() + c - 1) / c;
+        String e = "";
+        for (int n = 1; n <= c; n++)
+        for (int j = 0; j < c; j++)
+        if (k[j] == n)
+        for (int i = 0; i < r; i++) {
+            int p = i * c + j;
+            if (p < s.length()) e += s.charAt(p);
+            else e += '_'; // padding
+        }
+        return e;
+    }
+    static String decrypt(String s, int[] k) {
+        int c = k.length, r = s.length() / c, p = 0;
+        char[][] g = new char[r][c];
+        for (int n = 1; n <= c; n++)
+        for (int j = 0; j < c; j++)
+        if (k[j] == n)
+        for (int i = 0; i < r; i++) g[i][j] = s.charAt(p++);
+        String d = "";
+        for (char[] row : g) d += new String(row);
+        return d;
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Plaintext: ");
+        String s = sc.nextLine().replace(" ", "");
+        System.out.print("Key: ");
+        int[] k = getKey(sc.next());
+        String e = encrypt(s, k), d = encrypt(e, k);
+        System.out.println("\nNumeric Key: " + Arrays.toString(k));
+        System.out.println("\n--- Single Transposition ---");
+        System.out.println("Encrypted: " + e);
+        System.out.println("Decrypted: " + decrypt(e, k));
+        System.out.println("\n--- Double Transposition ---");
+        System.out.println("Encrypted: " + d);
+        System.out.println("Decrypted: "
+            + decrypt(decrypt(d, k), k).replace("_", ""));
+      }
+}
