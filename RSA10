@@ -1,0 +1,24 @@
+WRITE A JAVA PROGRAM TO IMPLEMENT RSA ALGORITHM LOGIC.
+Program
+import javax.crypto.Cipher;
+import java.security.*;
+import java.util.*;
+class RSA {
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter Plain Text: ");
+        String s = sc.nextLine();
+        KeyPairGenerator kg = KeyPairGenerator.getInstance("RSA");
+        kg.initialize(2048);
+        KeyPair key = kg.generateKeyPair();
+        Cipher c = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+        c.init(Cipher.ENCRYPT_MODE, key.getPublic());
+        String e = Base64.getEncoder()
+            .encodeToString(c.doFinal(s.getBytes()));
+        c.init(Cipher.DECRYPT_MODE, key.getPrivate());
+        String d = new String(c.doFinal(Base64.getDecoder().decode(e)));
+        System.out.println("\nEncrypted : " + e);
+        System.out.println("Decrypted : " + d);
+        sc.close();
+    }
+}
