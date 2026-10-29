@@ -1,0 +1,26 @@
+WRITE A JAVA PROGRAM TO PERFORM ENCRYPTION AND DECRYPTION USING THE CAESAR CIPHER.
+Program
+import java.util.*;
+class SimpleCaesar {
+    static String shift(String s, int k) {
+        String r = "";
+        for (char c : s.toCharArray()) {
+            if (c >= 'A' && c <= 'Z') c = (char) ('A' + (c - 'A' + k) % 26);
+            else if (c >= 'a' && c <= 'z') c = (char) ('a' + (c - 'a' + k) % 
+26);
+    }
+            r += c; // other characters stay same
+        }
+        return r;
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter text: ");
+        String s = sc.nextLine();
+        System.out.print("Enter shift: ");
+        int k = sc.nextInt() % 26;
+        String e = shift(s, k);
+        System.out.println("Encrypted: " + e);
+        System.out.println("Decrypted: " + shift(e, 26 - k)); // shift backward
+        sc.close();
+    }
+}
