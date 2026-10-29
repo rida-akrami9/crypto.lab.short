@@ -1,0 +1,29 @@
+WRITE A JAVA PROGRAM TO PERFORM ENCRYPTION AND DECRYPTION USING THE SUBSTITUTION
+CIPHER.
+Program
+import java.util.*;
+class SubstitutionCipher {
+    static String A = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    static String K = "QWERTYUIOPASDFGHJKLZXCVBNM";
+    static String convert(String s, String from, String to) {
+        String r = "";
+        for (char c : s.toUpperCase().toCharArray()) {
+            int i = from.indexOf(c);
+            if (i >= 0) r += to.charAt(i); // letter: replace
+            else r += c; // space/symbol: keep
+        }
+        return r;
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("--- Substitution Cipher ---");
+        System.out.println("Alphabet : " + A);
+        System.out.println("Key : " + K);
+        System.out.print("\nEnter Plain Text: ");
+        String s = sc.nextLine();
+        String e = convert(s, A, K); // encrypt
+        System.out.println("Encrypted Text: " + e);
+        System.out.println("Decrypted Text: " + convert(e, K, A)); // decrypt
+        sc.close();
+    }
+}
